@@ -1,6 +1,6 @@
-# isitup-for-slack
+# Lunchbot
 
-Custom slash command to use isitup.org to check if a site is up from within Slack
+NEED TO UPDATE FROM TEMPLATE
 
 ## REQUIREMENTS
 
