@@ -39,31 +39,35 @@ if($token != ''){ #replace this with the token from your slash command configura
 # Get today's date
 $today = date("Y/m/d");
 
+#lowercase text
+$text = strtolower($text);
+
 # Get menu
 $response_array = json_decode('lunch.json',true);
+var_dump($response_array);
+exit;
 
 # Check if its set
 if (isset($text)) {
 
   #Check if its today
-  if (strpos(strtolower($text), 'today')) {
+  if (strpos($text), 'today') {
 
     $key = array_search($today, $response_array);
 
-    $reply = "Salad: " . $response_array[$key][salad] . " and Grill: " . $response_array[$key][grill];
+    $reply = "Today, we've got...Salad: " . $response_array[$key][salad] . " and Grill: " . $response_array[$key][grill];
 
-  # Check if its tomorrow
-  } else if (strpos(strtolower($text), 'tomorrow') {
+  } elseif (strpos($text), 'tomorrow') {
 
     # Add one to today
     $today->modify('+1 day');
     $key = array_search($today, $response_array);
 
-    $reply = "Salad: " . $response_array[$key][salad] . " and Grill: " . $response_array[$key][grill];
+    $reply = "Tomorrow is: Salad: " . $response_array[$key][salad] . " and Grill: " . $response_array[$key][grill];
 
-  } else if (strpos(strtolower($text), 'halal')) {
+  } elseif (strpos($text), 'halal') {
 
-    $reply = "Of course, there is halal today.";
+    $reply = "Of course, there is halal. Have you had it yet this week?";
 
   } else {
 
