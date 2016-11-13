@@ -26,10 +26,10 @@ USAGE
 function rndmsg($type) {
   if ($type == "error") {
     $message_response = json_decode(file_get_contents('errormessages.json'),true);
-    return array_rand($message_response);
+    return $message_response[array_rand($message_response)]['message'];
   } elseif ($type == "snark") {
     $message_response = json_decode(file_get_contents('snarkmessages.json'),true);
-    return $message_response[array_rand($message_response)];
+    return $message_response[array_rand($message_response)]['message'];
   }
 }
 
