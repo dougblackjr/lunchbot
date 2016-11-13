@@ -52,14 +52,14 @@ if (isset($_POST['command'])) {
 
 // LUNCH CODE
 # Test variable
-$text = 'gerbils';
+$text = 'what\'s for lunch today?';
 
 # Get today's date
 $today = date("Y/m/d");
 $datetimestamp = new DateTime($today);
 
 #lowercase text
-$text = strtolower($text);
+if (isset($text)) {$text = strtolower($text);};
 
 # Get menu
 $response_array = json_decode(file_get_contents('lunch.json'),true);
