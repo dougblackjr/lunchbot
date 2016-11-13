@@ -1,0 +1,10 @@
+[
+	{
+		"id": 1,
+		"message": "I can respond to 'today', 'tomorrow', or 'halal'. Maybe other things."
+	},
+	{
+		"id": 2,
+		"message": "Have you tried asking 'What\'s for lunch today?'?"
+	},
+]

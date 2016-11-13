@@ -22,20 +22,35 @@ USAGE
 
 */
 
+//MESSAGE RANDOMIZER
+function rndmsg($type) {
+  if ($type == "error") {
+    $message_response = json_decode(file_get_contents('errormessages.json'),true);
+    return array_rand($message_response);
+  } elseif ($type == "snark") {
+    $message_response = json_decode(file_get_contents('snarkmessages.json'),true);
+    return array_rand($message_response);
+  }
+}
+
 
 // SLACK CODE
 // # Grab some of the values from the slash command, create vars for post back to Slack
-$command = $_POST['command'];
-$text = $_POST['text'];
-$token = $_POST['token'];
+if (isset($_POST['command'])) {
+  $command = $_POST['command'];
+  $text = $_POST['text'];
+  $token = $_POST['token'];
 
-// # Check the token and make sure the request is from our team 
-if($token != ''){ #replace this with the token from your slash command configuration page
-  $msg = "I have died. I have no regrets. (Slack Token issue)";
-  die($msg);
-  echo $msg;
+  // # Check the token and make sure the request is from our team 
+  if($token != ''){ #replace this with the token from your slash command configuration page
+    $msg = "I have died. I have no regrets. (Slack Token issue)";
+    die($msg);
+    echo $msg;
+  }
 }
 
+
+// LUNCH CODE
 # Test variable
 $text = 'what\'s for lunch tomorrow?';
 
@@ -73,14 +88,14 @@ if (isset($text)) {
   } else {
 
     # Default message
-    $reply = "I'm just a robot. I'm not omniscient. Try 'today'.";
+    $reply = rndmsg("snark");
 
   }
 
 } else {
 
   # Error message
-  $reply = "I can responde to 'today', 'tomorrow', or 'halal'. Maybe other things.";
+  $reply = rndmsg("error");
 
 }
 
