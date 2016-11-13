@@ -1,15 +1,17 @@
-{
-	"date": "2016/11/12",
-	"salad": "Caprese",
-	"grill": "Burger"
-},
-{
-	"date": "2016/11/13",
-	"salad": "Caesar",
-	"grill": "Chicken"
-},
-{
-	"date": "2016/11/14",
-	"salad": "Chili",
-	"grill": "Meat"
-}
+[
+	{
+		"date": "2016/11/12",
+		"salad": "Caprese",
+		"grill": "Burger"
+	},
+	{
+		"date": "2016/11/13",
+		"salad": "Caesar",
+		"grill": "Chicken"
+	},
+	{
+		"date": "2016/11/14",
+		"salad": "Chili",
+		"grill": "Meat"
+	}
+]

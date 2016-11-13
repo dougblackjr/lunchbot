@@ -23,18 +23,21 @@ USAGE
 */
 
 
-# Grab some of the values from the slash command, create vars for post back to Slack
-$command = $_POST['command'];
-$text = $_POST['text'];
-$token = $_POST['token'];
+// SLACK CODE
+// # Grab some of the values from the slash command, create vars for post back to Slack
+// $command = $_POST['command'];
+// $text = $_POST['text'];
+// // $token = $_POST['token'];
 
-# Check the token and make sure the request is from our team 
-if($token != ''){ #replace this with the token from your slash command configuration page
-  $msg = "I have died. I have no regrets. (Slack Token issue)";
-  die($msg);
-  echo $msg;
-}
+// # Check the token and make sure the request is from our team 
+// if($token != ''){ #replace this with the token from your slash command configuration page
+//   $msg = "I have died. I have no regrets. (Slack Token issue)";
+//   die($msg);
+//   echo $msg;
+// }
 
+# Test variable
+$text = 'today';
 
 # Get today's date
 $today = date("Y/m/d");
@@ -43,21 +46,20 @@ $today = date("Y/m/d");
 $text = strtolower($text);
 
 # Get menu
-$response_array = json_decode('lunch.json',true);
-var_dump($response_array);
-exit;
+$response_array = json_decode(file_get_contents('lunch.json'),true);
 
 # Check if its set
 if (isset($text)) {
-
+  echo 'text is set';
+  exit;
   #Check if its today
-  if (strpos($text), 'today') {
+  if (strpos($text, 'today')) {
 
     $key = array_search($today, $response_array);
 
     $reply = "Today, we've got...Salad: " . $response_array[$key][salad] . " and Grill: " . $response_array[$key][grill];
 
-  } elseif (strpos($text), 'tomorrow') {
+  } elseif (strpos($text, 'tomorrow')) {
 
     # Add one to today
     $today->modify('+1 day');
@@ -65,7 +67,7 @@ if (isset($text)) {
 
     $reply = "Tomorrow is: Salad: " . $response_array[$key][salad] . " and Grill: " . $response_array[$key][grill];
 
-  } elseif (strpos($text), 'halal') {
+  } elseif (strpos($text, 'halal')) {
 
     $reply = "Of course, there is halal. Have you had it yet this week?";
 
