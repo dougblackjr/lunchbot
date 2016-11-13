@@ -23,30 +23,51 @@ USAGE
 */
 
 //MESSAGE RANDOMIZER
+// Randomized the error and snarky messages.
+// $type can be error, snark, or static.
 function rndmsg($type) {
+
   if ($type == "error") {
-    $message_response = json_decode(file_get_contents('errormessages.json'),true);
+
+    $message_response = json_decode( file_get_contents ( 'errormessages.json' ), true);
+    
     return $message_response[array_rand($message_response)]['message'];
+
   } elseif ($type == "snark") {
-    $message_response = json_decode(file_get_contents('snarkmessages.json'),true);
+
+    $message_response = json_decode( file_get_contents( 'snarkmessages.json' ), true);
+    
     return $message_response[array_rand($message_response)]['message'];
+
+  } else {
+
+    return "Have you tried asking 'What for lunch today?'?";
+
   }
+
 }
 
 
 // SLACK CODE
 // # Grab some of the values from the slash command, create vars for post back to Slack
 if (isset($_POST['command'])) {
+
   $command = $_POST['command'];
+
   $text = $_POST['text'];
+
   $token = $_POST['token'];
 
   // # Check the token and make sure the request is from our team 
   if($token != ''){ #replace this with the token from your slash command configuration page
+
     $msg = "I have died. I have no regrets. (Slack Token issue)";
+
     die($msg);
+
     echo $msg;
   }
+
 }
 
 
@@ -70,42 +91,57 @@ if (isset($text)) {
   #Check if its today
   if (strpos($text, 'today')) {
 
+    # Get key of array matching today's date
     $key = array_search($datetimestamp->format("Y/m/d"), array_column($response_array, 'date'));
 
+    # Check if key is empty. If it is, there is no info for today. Else, it throws out the menu.
     if (empty($key)) {
+
       $reply = "Sorry, I don't have information for today.";
+
     } else {
+
       $reply = "Today, we've got...Salad: " . $response_array[$key]['salad'] . " and Grill: " . $response_array[$key]['grill'];
+
     }
 
   } elseif (strpos($text, 'tomorrow')) {
 
     # Add one to today
     $datetimestamp->modify('+1 day');
+    
+    # Get key of array matching tomorrow's date
     $key = array_search($datetimestamp->format("Y/m/d"), array_column($response_array, 'date'));
 
+    # Check if key is empty. If it is, there is no info for tomorrow. Else, it throws out the menu.
     if (empty($key)) {
+
       $reply = "Sorry, I don't have information for today.";
+
     } else {
+
       $reply = "Tomorrow is: Salad: " . $response_array[$key]['salad'] . " and Grill: " . $response_array[$key]['grill'];
+
     }
 
   } elseif (strpos($text, 'halal')) {
 
+    # Someone will mention the halal cart at our office. This is just fun for us. Try your own context specific messages.
     $reply = "Of course, there is halal.";
 
   } else {
 
-    # Default message
+    # Default snarky message. Change this to type of "static" for one message.
     $reply = rndmsg("snark");
 
   }
 
 } else {
 
-  # Error message
+  # Error message if variable is not set. Change this to type of "static" for one message.
   $reply = rndmsg("error");
 
 }
 
+# Send the reply back to Slack
 echo $reply;
