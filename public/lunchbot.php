@@ -29,7 +29,7 @@ function rndmsg($type) {
     return array_rand($message_response);
   } elseif ($type == "snark") {
     $message_response = json_decode(file_get_contents('snarkmessages.json'),true);
-    return array_rand($message_response);
+    return $message_response[array_rand($message_response)];
   }
 }
 
@@ -52,7 +52,7 @@ if (isset($_POST['command'])) {
 
 // LUNCH CODE
 # Test variable
-$text = 'what\'s for lunch tomorrow?';
+$text = 'gerbils';
 
 # Get today's date
 $today = date("Y/m/d");
