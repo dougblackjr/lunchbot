@@ -37,7 +37,7 @@ USAGE
 // }
 
 # Test variable
-$text = 'today';
+$text = 'what\'s for lunch today?';
 
 # Get today's date
 $today = date("Y/m/d");
@@ -50,14 +50,13 @@ $response_array = json_decode(file_get_contents('lunch.json'),true);
 
 # Check if its set
 if (isset($text)) {
-  echo 'text is set';
-  exit;
+
   #Check if its today
   if (strpos($text, 'today')) {
-
-    $key = array_search($today, $response_array);
-
-    $reply = "Today, we've got...Salad: " . $response_array[$key][salad] . " and Grill: " . $response_array[$key][grill];
+    // $key = array_search($today, $response_array);
+    // echo "key is " . $key;
+    $key = 1;
+    $reply = "Today, we've got...Salad: " . $response_array[$key]['salad'] . " and Grill: " . $response_array[$key]['grill'];
 
   } elseif (strpos($text, 'tomorrow')) {
 
@@ -65,7 +64,7 @@ if (isset($text)) {
     $today->modify('+1 day');
     $key = array_search($today, $response_array);
 
-    $reply = "Tomorrow is: Salad: " . $response_array[$key][salad] . " and Grill: " . $response_array[$key][grill];
+    $reply = "Tomorrow is: Salad: " . $response_array[$key]['salad'] . " and Grill: " . $response_array[$key]['grill'];
 
   } elseif (strpos($text, 'halal')) {
 
