@@ -37,7 +37,7 @@ USAGE
 // }
 
 # Test variable
-$text = 'what\'s for lunch today?';
+$text = 'what\'s for lunch tomorrow?';
 
 # Get today's date
 $today = date("Y/m/d");
@@ -62,7 +62,7 @@ if (isset($text)) {
 
     # Add one to today
     $datetimestamp->modify('+1 day');
-    $key = array_search($datetimestamp->format("Y/m/d"), $response_array);
+    $key = array_search($datetimestamp->format("Y/m/d"), array_column($response_array, 'date'));
 
     $reply = "Tomorrow is: Salad: " . $response_array[$key]['salad'] . " and Grill: " . $response_array[$key]['grill'];
 
