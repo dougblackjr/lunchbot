@@ -71,7 +71,12 @@ if (isset($text)) {
   if (strpos($text, 'today')) {
 
     $key = array_search($datetimestamp->format("Y/m/d"), array_column($response_array, 'date'));
-    $reply = "Today, we've got...Salad: " . $response_array[$key]['salad'] . " and Grill: " . $response_array[$key]['grill'];
+
+    if (empty($key)) {
+      $reply = "Sorry, I don't have information for today.";
+    } else {
+      $reply = "Today, we've got...Salad: " . $response_array[$key]['salad'] . " and Grill: " . $response_array[$key]['grill'];
+    }
 
   } elseif (strpos($text, 'tomorrow')) {
 
@@ -79,7 +84,11 @@ if (isset($text)) {
     $datetimestamp->modify('+1 day');
     $key = array_search($datetimestamp->format("Y/m/d"), array_column($response_array, 'date'));
 
-    $reply = "Tomorrow is: Salad: " . $response_array[$key]['salad'] . " and Grill: " . $response_array[$key]['grill'];
+    if (empty($key)) {
+      $reply = "Sorry, I don't have information for today.";
+    } else {
+      $reply = "Tomorrow is: Salad: " . $response_array[$key]['salad'] . " and Grill: " . $response_array[$key]['grill'];
+    }
 
   } elseif (strpos($text, 'halal')) {
 
