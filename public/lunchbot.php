@@ -93,11 +93,11 @@ if (isset($text)) {
 
     # Get key of array matching today's date
     $key = array_search($datetimestamp->format("Y/m/d"), array_column($response_array, 'date'));
-
+    
     # Check if key is empty. If it is, there is no info for today. Else, it throws out the menu.
-    if (empty($key)) {
+    if ( empty($key) ) {
 
-      $reply = "Sorry, I don't have information for today.";
+      $reply = "Sorry, I don't have information for today.";      
 
     } else {
 
@@ -116,7 +116,7 @@ if (isset($text)) {
     # Check if key is empty. If it is, there is no info for tomorrow. Else, it throws out the menu.
     if (empty($key)) {
 
-      $reply = "Sorry, I don't have information for today.";
+      $reply = "Sorry, I don't have information for tomorrow.";
 
     } else {
 
