@@ -41,6 +41,7 @@ $text = 'what\'s for lunch today?';
 
 # Get today's date
 $today = date("Y/m/d");
+$datetimestamp = new DateTime($today);
 
 #lowercase text
 $text = strtolower($text);
@@ -53,22 +54,21 @@ if (isset($text)) {
 
   #Check if its today
   if (strpos($text, 'today')) {
-    // $key = array_search($today, $response_array);
-    // echo "key is " . $key;
-    $key = 1;
+
+    $key = array_search($datetimestamp->format("Y/m/d"), array_column($response_array, 'date'));
     $reply = "Today, we've got...Salad: " . $response_array[$key]['salad'] . " and Grill: " . $response_array[$key]['grill'];
 
   } elseif (strpos($text, 'tomorrow')) {
 
     # Add one to today
-    $today->modify('+1 day');
-    $key = array_search($today, $response_array);
+    $datetimestamp->modify('+1 day');
+    $key = array_search($datetimestamp->format("Y/m/d"), $response_array);
 
     $reply = "Tomorrow is: Salad: " . $response_array[$key]['salad'] . " and Grill: " . $response_array[$key]['grill'];
 
   } elseif (strpos($text, 'halal')) {
 
-    $reply = "Of course, there is halal. Have you had it yet this week?";
+    $reply = "Of course, there is halal.";
 
   } else {
 
