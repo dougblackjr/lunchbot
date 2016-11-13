@@ -7,7 +7,7 @@ Just a simple Slackbot to read a JSON file and output the results. In this case,
 * A custom slash command on a Slack team
 * A web server running PHP5
 
-## FILES
+## FILES (Located in PUBLIC folder for Vagrant set up)
 * **lunchbot.php**: The Slackbot where the code magic happens.
 * **lunch.json**: The lunch menu
 * **errormessages.json**: List of random error messages. Not required if you want to put a static one in your bot.
