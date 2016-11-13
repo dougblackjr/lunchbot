@@ -25,16 +25,16 @@ USAGE
 
 // SLACK CODE
 // # Grab some of the values from the slash command, create vars for post back to Slack
-// $command = $_POST['command'];
-// $text = $_POST['text'];
-// // $token = $_POST['token'];
+$command = $_POST['command'];
+$text = $_POST['text'];
+$token = $_POST['token'];
 
 // # Check the token and make sure the request is from our team 
-// if($token != ''){ #replace this with the token from your slash command configuration page
-//   $msg = "I have died. I have no regrets. (Slack Token issue)";
-//   die($msg);
-//   echo $msg;
-// }
+if($token != ''){ #replace this with the token from your slash command configuration page
+  $msg = "I have died. I have no regrets. (Slack Token issue)";
+  die($msg);
+  echo $msg;
+}
 
 # Test variable
 $text = 'what\'s for lunch tomorrow?';
