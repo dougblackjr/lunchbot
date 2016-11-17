@@ -29,13 +29,13 @@ function rndmsg($type) {
 
   if ($type == "error") {
 
-    $message_response = json_decode( file_get_contents ( 'errormessages.json' ), true);
+    $message_response = json_decode( file_get_contents ( 'json/errormessages.json' ), true);
     
     return $message_response[array_rand($message_response)]['message'];
 
   } elseif ($type == "snark") {
 
-    $message_response = json_decode( file_get_contents( 'snarkmessages.json' ), true);
+    $message_response = json_decode( file_get_contents( 'json/snarkmessages.json' ), true);
     
     return $message_response[array_rand($message_response)]['message'];
 
@@ -68,31 +68,31 @@ if (isset($_POST['command'])) {
     echo $msg;
   }
 
+} else {
+  $text = 'what\'s for lunch today?';
 }
-
-
-// LUNCH CODE
-# Test variable
-$text = 'what\'s for lunch today?';
 
 # Get today's date
 $today = date("Y/m/d");
 $datetimestamp = new DateTime($today);
 
+# Set clear response_array
+$response_array = array();
+
 #lowercase text
 if (isset($text)) {$text = strtolower($text);};
 
 # Get menu
-$response_array = json_decode(file_get_contents('lunch.json'),true);
+$lunch_array = json_decode(file_get_contents('json/lunch.json'),true);
 
 # Check if its set
 if (isset($text)) {
 
   #Check if its today
-  if (strpos($text, 'today')) {
+  if (strpos($text, 'today') || $text == 'today') {
 
     # Get key of array matching today's date
-    $key = array_search($datetimestamp->format("Y/m/d"), array_column($response_array, 'date'));
+    $key = array_search($datetimestamp->format("Y/m/d"), array_column($lunch_array, 'date'));
     
     # Check if key is empty. If it is, there is no info for today. Else, it throws out the menu.
     if ( empty($key) ) {
@@ -101,17 +101,20 @@ if (isset($text)) {
 
     } else {
 
-      $reply = "Today, we've got...Salad: " . $response_array[$key]['salad'] . " and Grill: " . $response_array[$key]['grill'];
+      $reply = "Today, we've got\nCreate: " . $lunch_array[$key]['create'] . "\nSoup: " . $lunch_array[$key]['soup'] . "\nGrill: " . $lunch_array[$key]['grill'] . "\nDeli: " . $lunch_array[$key]['deli'];
+
+      # No line breaks
+      // $reply = "Today, we've got " . $lunch_array[$key]['create'] . ", " . $lunch_array[$key]['soup'] . ", " . $lunch_array[$key]['grill'] . ", " . $lunch_array[$key]['deli'];
 
     }
 
-  } elseif (strpos($text, 'tomorrow')) {
+  } elseif (strpos($text, 'tomorrow') || $text == 'tomorrow') {
 
     # Add one to today
     $datetimestamp->modify('+1 day');
     
     # Get key of array matching tomorrow's date
-    $key = array_search($datetimestamp->format("Y/m/d"), array_column($response_array, 'date'));
+    $key = array_search($datetimestamp->format("Y/m/d"), array_column($lunch_array, 'date'));
 
     # Check if key is empty. If it is, there is no info for tomorrow. Else, it throws out the menu.
     if (empty($key)) {
@@ -120,11 +123,14 @@ if (isset($text)) {
 
     } else {
 
-      $reply = "Tomorrow is: Salad: " . $response_array[$key]['salad'] . " and Grill: " . $response_array[$key]['grill'];
+      $reply = "Tomorrow is: \nCreate: " . $lunch_array[$key]['create'] . "\nSoup: " . $lunch_array[$key]['soup'] . "\nGrill: " . $lunch_array[$key]['grill'] . "\nDeli: " . $lunch_array[$key]['deli'];
+
+      # No line breaks
+      // $reply = "Tomorrow, we've got " . $lunch_array[$key]['create'] . ", " . $lunch_array[$key]['soup'] . ", " . $lunch_array[$key]['grill'] . ", " . $lunch_array[$key]['deli'];
 
     }
 
-  } elseif (strpos($text, 'halal')) {
+  } elseif (strpos($text, 'halal') || $text = 'halal') {
 
     # Someone will mention the halal cart at our office. This is just fun for us. Try your own context specific messages.
     $reply = "Of course, there is halal.";
@@ -144,4 +150,20 @@ if (isset($text)) {
 }
 
 # Send the reply back to Slack
-echo $reply;
+// echo $reply;
+
+# Send reply back as JSON
+$response_array['response_type'] = 'in_channel';
+$response_array['text'] = $reply;
+ignore_user_abort(true);
+set_time_limit(0);
+
+ob_start();
+// do initial processing here
+echo json_encode($response_array); // send the response
+header('Connection: close');
+header("Content-Type: application/json");
+header('Content-Length: '.ob_get_length());
+ob_end_flush();
+ob_flush();
+flush();
